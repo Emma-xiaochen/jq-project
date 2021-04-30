@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bootstrap+jquery静态页面</title>
+  <link rel="stylesheet" href="./css/bootstrap.css">
+  <link rel="stylesheet" href="./css/main.css">
+</head>
+
+<body>
+  <div id="tool-bar">
+    <div class="tool-bar-left">
+      <span>姓名：</span>
+      <input class="form-control search-ipt" type="search" placeholder="请输入" id="username">
+      <button class="btn btn-default" type="button" id="search-btn">查询</button>
+      <button class="btn btn-default" type="button" id="reset-btn">重置</button>
+    </div>
+    <div class="tool-bar-right">
+      <button class="btn btn-success pull-right" type="button">新增</button>
+    </div>
+  </div>
+  <div id="main">
+    <table id="table" class="table table-bordered table-striped table-hover text-center">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>姓名</th>
+          <th>出生日期</th>
+          <th>籍贯</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+        <tr id="no-data">
+          <td colspan="5">暂无数据~</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script src="./js/jquery.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+
+</html>

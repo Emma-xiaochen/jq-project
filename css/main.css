@@ -1,0 +1,55 @@
+body {
+  margin: 10px;
+  min-width: 600px;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+  outline: none;
+}
+
+#tool-bar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-ipt {
+  width: 200px;
+  display: inline-block;
+}
+
+#table {
+  margin-top: 10px;
+}
+
+#table thead th {
+  text-align: center;
+}
+
+#table tbody td {
+  vertical-align: middle;
+}
+
+#table thead th:nth-child(1) {
+  width: 216.8px;
+}
+
+#table thead th:nth-child(2) {
+  width: 173.6px;
+}
+
+#table thead th:nth-child(3) {
+  width: 344px;
+}
+
+#table thead th:nth-child(4) {
+  width: 282.4px;
+}
+
+#table thead th:nth-child(5) {
+  width: 500.8px;
+}
