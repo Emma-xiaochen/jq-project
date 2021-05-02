@@ -7,6 +7,7 @@
   <title>bootstrap+jquery静态页面</title>
   <link rel="stylesheet" href="./css/bootstrap.css">
   <link rel="stylesheet" href="./css/main.css">
+  <link rel="stylesheet" href="./iconfont/iconfont.css">
 </head>
 
 <body>
@@ -27,6 +28,7 @@
         <tr>
           <th>ID</th>
           <th>姓名</th>
+          <th>手机号</th>
           <th>出生日期</th>
           <th>籍贯</th>
           <th>操作</th>
@@ -34,7 +36,7 @@
       </thead>
       <tbody id="tbody">
         <tr id="no-data">
-          <td colspan="5">暂无数据~</td>
+          <td colspan="6">暂无数据~</td>
         </tr>
       </tbody>
     </table>
@@ -48,20 +50,27 @@
           <h4 class="modal-title" id="myModalLabel">个人信息</h4>
         </div>
         <div class="modal-body">
-          <form>
-            <label>ID：</label>
-            <input class="form-control" type="text">
-            <label>姓名：</label>
-            <input class="form-control" type="text">
-            <label>出生日期：</label>
-            <input class="form-control" type="text">
-            <label>籍贯：</label>
-            <input class="form-control" type="text">
-          </form>
+            <div class="form-group form-inline">
+              <label for="inputEmail3" class="control-label" id="label" aria-required="true">姓名</label>
+              <input type="text" id="input" class="form-control" id="inputEmail3" placeholder="请输入真实姓名">
+            </div>
+            <div class="form-group form-inline sep">
+              <label for="inputEmail3" class="control-label" id="label" aria-required="true">出生日期</label>
+              <input type="text" id="input" class="form-control" id="inputEmail3" placeholder="年/月/日">
+              <span class="iconfont icon-riqi"></span>
+            </div>
+            <div class="form-group form-inline">
+              <label for="inputEmail3" class="control-label" id="label" aria-required="true">籍贯</label>
+              <input type="text" id="input" class="form-control" id="inputEmail3" placeholder="广东省广州市">
+            </div>
+            <div class="form-group form-inline">
+              <label for="inputEmail3" class="control-label" id="label" aria-required="true">手机号码</label>
+              <input type="text" id="input" class="form-control" id="inputEmail3" placeholder="请输入11位手机号">
+            </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">我再想想</button>
-          <button type="button" class="btn btn-primary">确认提交</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary">保存</button>
         </div>
       </div>
     </div>

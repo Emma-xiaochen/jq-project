@@ -1,0 +1,16 @@
+{
+  "id": "2524601",
+  "name": "jq练手",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2569873",
+      "name": "日期",
+      "font_class": "riqi",
+      "unicode": "e67c",
+      "unicode_decimal": 59004
+    }
+  ]
+}
