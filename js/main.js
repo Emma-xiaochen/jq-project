@@ -75,3 +75,7 @@ function htmlRender(dataList) {
   })
   $('#tbody').empty().append(htmlStr);
 }
+
+$('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').focus()
+})
