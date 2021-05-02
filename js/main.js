@@ -60,6 +60,17 @@ $('#reset-btn').click(function () {
   $('#username').val('');
 })
 
+$('#save-btn').click(function () {
+  var name = $('.name');
+  var birth = $('.birth');
+  var place = $('.place');
+  var telephone = $('.telephone');
+  console.log('姓名：', name.val());
+  console.log('出生日期：', birth.val());
+  console.log('籍贯：', place.val());
+  console.log('手机号码：', telephone.val());
+})
+
 // 渲染模板
 function htmlRender(dataList) {
   var htmlStr;
