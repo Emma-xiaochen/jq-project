@@ -33,15 +33,18 @@ body {
 #table tbody td {
   vertical-align: middle;
 }
-/* 
+
 .modal-body label {
   width: 90px;
   text-align: center;
 }
 
-.modal-body input {
+.modal-body .name,
+.modal-body .birth,
+.modal-body .place,
+.modal-body .telephone {
   width: 474px;
-} */
+}
 
 .modal-body .sep {
   position: relative;
