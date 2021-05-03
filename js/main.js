@@ -15,17 +15,19 @@ init()
 
 // 搜索功能
 $('#search-btn').click(function () {
+  // 1. 获取搜索框里的内容
   var username = $('#search-ipt').val().trim();
   if (username === '') {
     alert('请输入姓名');
     return;
   }
+  // 2. 请求获取数据
   $.ajax({
     type: 'GET',
     url: 'http://10.65.41.54:8888/api/user?username=' + username,
     success: function (result) {
       console.log('result:', result);
-      // 2. 请求成功后，将数据插入到模板渲染到页面
+      // 3. 请求成功后，将数据插入到模板渲染到页面
       // htmlRender(result.data);
       if (result.data.length === 0) {
         alert('查不到该姓名的数据');
@@ -38,6 +40,7 @@ $('#search-btn').click(function () {
 
 // 重置功能
 $('#reset-btn').click(function () {
+  // 1， 请求获取数据
   $.ajax({
     type: 'GET',
     url: 'http://10.65.41.54:8888/api/user',
@@ -47,12 +50,21 @@ $('#reset-btn').click(function () {
       htmlRender(result.data);
     }
   })
-  // 重置输入框
+  // 2. 重置输入框
   $('#search-ipt').val('');
+})
+
+// "新增"按钮
+$('#add-btn').click(function () { 
+  // 1. 显示弹框
+  $('#myModal').modal('show')
+  // 2. 重置表单
+  resetForm();
 })
 
 // "保存"按钮
 $('#save-btn').click(function () {
+  // 1. 获取表单内容
   var name = $('#username').val();
   var birth = $('#birthday').val();
   var place = $('#place').val();
@@ -68,35 +80,28 @@ $('#save-btn').click(function () {
     phone: telephone
   }
   console.log('obj：', obj);
+  // 2. 请求新增数据
   $.ajax({
     type: 'POST',
     url: 'http://10.65.41.54:8888/api/user/add',
     data: obj,
     success: function (result) {
       // console.log('result：', result);
-      // 新增数据成功之后，关闭模态框
+      // 3. 新增数据成功之后，关闭模态框
       $('#myModal').modal('hide');
     
-      // 重新请求最新数据渲染到页面
+      // 4. 重新请求最新数据渲染到页面
       $.ajax({
         type: 'GET',
         url: 'http://10.65.41.54:8888/api/user',
         success: function (result) {
           // console.log('result:', result);
-          // 2. 请求成功后，将数据插入到模板渲染到页面
+          // 5. 请求成功后，将数据插入到模板渲染到页面
           htmlRender(result.data);
         }
       })
     }
   })
-})
-
-// "新增"按钮
-$('#add-btn').click(function () { 
-  // 显示弹框
-  $('#myModal').modal('show')
-  // 重置表单
-  resetForm();
 })
 
 // 重置数据表单
@@ -129,10 +134,11 @@ function htmlRender(dataList) {
   
   // "删除"按钮
   $('.del-btn').click(function () {
+    // 1. 读取预存在删除按钮的data-id值
     var id = $(this).data('id');
-    // console.log('id:', id);
+    // 2. 用confirm确认框来显示一条信息和确认和取消按钮的对话框
     var isDel = confirm('是否删除id为' + id + '的数据?');
-    // console.log(isDel);
+    // 3. 选择删除后，请求删除数据
     if (isDel) {
       console.log('选择删除');
       $.ajax({
@@ -141,25 +147,23 @@ function htmlRender(dataList) {
         data: { id: id },
         success: function (result) {
           console.log('result:', result);
-          // 删除数据成功后，重新请求数据
+          // 4. 删除数据成功后，重新请求数据到页面
           $.ajax({
             type: 'GET',
             url: 'http://10.65.41.54:8888/api/user',
             success: function (result) {
-              // console.log('result:', result);
-              // 2. 请求成功后，将数据插入到模板渲染到页面
+              // 5. 请求成功后，将数据插入到模板渲染到页面
               htmlRender(result.data);
             }
           })
         }
       })
     } else {
+      // 6. 选择取消删除后，关闭弹框
       console.log('取消删除');
     }
   })
 }
-
-
 
 $('#myModal').on('shown.bs.modal', function () {
   $('#myInput').focus()
