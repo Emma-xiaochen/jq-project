@@ -1,74 +1,94 @@
-var dataList = [
-  {
-    id: '1',
-    name: '小红',
-    telephone: '12312312312',
-    city: '广东广州',
-    brithday: '2022-12-12'
-  },
-  {
-    id: '2',
-    name: '小陈',
-    telephone: '12312312312',
-    city: '广东广州',
-    brithday: '2022-12-12'
-  },
-  {
-    id: '3',
-    name: '小杰',
-    telephone: '12312312312',
-    city: '广东广州',
-    brithday: '2022-12-12'
-  },
-  {
-    id: '4',
-    name: '小子',
-    telephone: '12312312312',
-    city: '广东广州',
-    brithday: '2022-12-12'
-  }
-];
-
 function init() {
-  htmlRender(dataList);
+  // 1. 请求数据
+  $.ajax({
+    type: 'GET',
+    url: 'http://10.65.41.54:8888/api/user',
+    success: function (result) {
+      // console.log('result:', result);
+      // 2. 请求成功后，将数据插入到模板渲染到页面
+      htmlRender(result.data);
+    }
+  })
 }
 
-setTimeout(function () {
-  init()
-}, 1000)
+init()
 
 $('#search-btn').click(function () {
-  var username = $('#username').val().trim();
+  var username = $('#search-ipt').val().trim();
   if (username === '') {
     alert('请输入姓名');
     return;
   }
-  var filterData = dataList.filter(function (item) {
-    return item.name === username;
+  $.ajax({
+    type: 'GET',
+    url: 'http://10.65.41.54:8888/api/user?username=' + username,
+    success: function (result) {
+      console.log('result:', result);
+      // 2. 请求成功后，将数据插入到模板渲染到页面
+      // htmlRender(result.data);
+      if (result.data.length === 0) {
+        alert('查不到该姓名的数据');
+        return;
+      }
+      htmlRender(result.data);
+    }
   })
-  if (filterData.length === 0) {
-    alert('查不到该姓名数据');
-    return;
-  }
-  // console.log(filterData);
-  htmlRender(filterData);
 })
 
 $('#reset-btn').click(function () {
-  htmlRender(dataList);
+  $.ajax({
+    type: 'GET',
+    url: 'http://10.65.41.54:8888/api/user',
+    success: function (result) {
+      // console.log('result:', result);
+      // 2. 请求成功后，将数据插入到模板渲染到页面
+      htmlRender(result.data);
+    }
+  })
   // 重置输入框
-  $('#username').val('');
+  $('#search-ipt').val('');
 })
 
 $('#save-btn').click(function () {
-  var name = $('.name');
-  var birth = $('.birth');
-  var place = $('.place');
-  var telephone = $('.telephone');
-  console.log('姓名：', name.val());
-  console.log('出生日期：', birth.val());
-  console.log('籍贯：', place.val());
-  console.log('手机号码：', telephone.val());
+  var name = $('#username').val();
+  var birth = $('#birthday').val();
+  var place = $('#place').val();
+  var telephone = $('#telephone').val();
+  // console.log('姓名：', name);
+  // console.log('出生日期：', birth);
+  // console.log('籍贯：', place);
+  // console.log('手机号码：', telephone);
+  var obj = {
+    name: name,
+    birthday: birth,
+    city: place,
+    phone: telephone
+  }
+  console.log('obj：', obj);
+  $.ajax({
+    type: 'POST',
+    url: 'http://10.65.41.54:8888/api/user/add',
+    data: obj,
+    success: function (result) {
+      // console.log('result：', result);
+      // 新增数据成功之后，关闭模态框
+      $('#myModal').modal('hide');
+      $('#username').val('');
+      $('#birthday').val('');
+      $('#place').val('');
+      $('#telephone').val('');
+      // 重新请求最新数据渲染到页面
+      $.ajax({
+        type: 'GET',
+        url: 'http://10.65.41.54:8888/api/user',
+        success: function (result) {
+          // console.log('result:', result);
+          // 2. 请求成功后，将数据插入到模板渲染到页面
+          htmlRender(result.data);
+        }
+      })
+    }
+  })
 })
 
 // 渲染模板
@@ -79,8 +99,8 @@ function htmlRender(dataList) {
       <tr>
       <td>${item.id}</td>
       <td>${item.name}</td>
-      <td>${item.telephone}</td>
-      <td>${item.brithday}</td>
+      <td>${item.phone}</td>
+      <td>${item.birthday}</td>
       <td>${item.city}</td>
       <td>
         <button class="btn btn-primary">编辑</button>
