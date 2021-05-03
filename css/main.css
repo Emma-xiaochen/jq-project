@@ -33,39 +33,15 @@ body {
 #table tbody td {
   vertical-align: middle;
 }
-
-#table thead th:nth-child(1) {
-  width: 100px;
-}
-
-#table thead th:nth-child(2) {
-  width: 144px;
-}
-
-#table thead th:nth-child(3) {
-  width: 332.8px;
-}
-
-#table thead th:nth-child(4) {
-  width: 286.4px;
-}
-
-#table thead th:nth-child(5) {
-  width: 235.2px;
-}
-
-#table thead th:nth-child(5) {
-  width: 416.8px;
-}
-
-.modal-body #label {
+/* 
+.modal-body label {
   width: 90px;
   text-align: center;
 }
 
-.modal-body #input {
+.modal-body input {
   width: 474px;
-}
+} */
 
 .modal-body .sep {
   position: relative;
