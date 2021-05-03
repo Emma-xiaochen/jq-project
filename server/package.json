@@ -1,0 +1,19 @@
+{
+  "name": "koa-serve",
+  "author": "chenjz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "koa": "^2.13.0",
+    "koa-bodyparser": "^4.3.0",
+    "nodemon": "^2.0.7"
+  }
+}
