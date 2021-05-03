@@ -13,6 +13,7 @@ function init() {
 
 init()
 
+// 搜索功能
 $('#search-btn').click(function () {
   var username = $('#search-ipt').val().trim();
   if (username === '') {
@@ -35,6 +36,7 @@ $('#search-btn').click(function () {
   })
 })
 
+// 重置功能
 $('#reset-btn').click(function () {
   $.ajax({
     type: 'GET',
@@ -49,6 +51,7 @@ $('#reset-btn').click(function () {
   $('#search-ipt').val('');
 })
 
+// "保存"按钮
 $('#save-btn').click(function () {
   var name = $('#username').val();
   var birth = $('#birthday').val();
@@ -73,10 +76,7 @@ $('#save-btn').click(function () {
       // console.log('result：', result);
       // 新增数据成功之后，关闭模态框
       $('#myModal').modal('hide');
-      $('#username').val('');
-      $('#birthday').val('');
-      $('#place').val('');
-      $('#telephone').val('');
+    
       // 重新请求最新数据渲染到页面
       $.ajax({
         type: 'GET',
@@ -91,6 +91,22 @@ $('#save-btn').click(function () {
   })
 })
 
+// "新增"按钮
+$('#add-btn').click(function () { 
+  // 显示弹框
+  $('#myModal').modal('show')
+  // 重置表单
+  resetForm();
+})
+
+// 重置数据表单
+function resetForm() {
+  $('#username').val('');
+  $('#birthday').val('');
+  $('#place').val('');
+  $('#telephone').val('');
+}
+
 // 渲染模板
 function htmlRender(dataList) {
   var htmlStr;
@@ -104,13 +120,46 @@ function htmlRender(dataList) {
       <td>${item.city}</td>
       <td>
         <button class="btn btn-primary">编辑</button>
-        <button class="btn btn-danger">删除</button>
+        <button class="btn btn-danger del-btn" data-id="${item.id}">删除</button>
       </td>
       </tr>
       `
   })
   $('#tbody').empty().append(htmlStr);
+  
+  // "删除"按钮
+  $('.del-btn').click(function () {
+    var id = $(this).data('id');
+    // console.log('id:', id);
+    var isDel = confirm('是否删除id为' + id + '的数据?');
+    // console.log(isDel);
+    if (isDel) {
+      console.log('选择删除');
+      $.ajax({
+        type: 'DELETE',
+        url: 'http://10.65.41.54:8888/api/user/delete',
+        data: { id: id },
+        success: function (result) {
+          console.log('result:', result);
+          // 删除数据成功后，重新请求数据
+          $.ajax({
+            type: 'GET',
+            url: 'http://10.65.41.54:8888/api/user',
+            success: function (result) {
+              // console.log('result:', result);
+              // 2. 请求成功后，将数据插入到模板渲染到页面
+              htmlRender(result.data);
+            }
+          })
+        }
+      })
+    } else {
+      console.log('取消删除');
+    }
+  })
 }
+
+
 
 $('#myModal').on('shown.bs.modal', function () {
   $('#myInput').focus()
