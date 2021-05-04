@@ -124,13 +124,19 @@ function htmlRender(dataList) {
       <td>${item.birthday}</td>
       <td>${item.city}</td>
       <td>
-        <button class="btn btn-primary">编辑</button>
+        <button class="btn btn-primary edi-btn" data-ediid="${item.id}">编辑</button>
         <button class="btn btn-danger del-btn" data-id="${item.id}">删除</button>
       </td>
       </tr>
       `
   })
   $('#tbody').empty().append(htmlStr);
+
+  // "编辑功能"
+  $('.edi-btn').click(function () { 
+    var id = $(this).data('ediid');
+    console.log(id);
+  })
   
   // "删除"按钮
   $('.del-btn').click(function () {
