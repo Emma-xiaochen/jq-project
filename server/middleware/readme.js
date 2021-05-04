@@ -20,8 +20,8 @@ module.exports = `
         <td>GET</td>
         <td>/api/user</td>
         <td>-</td>
-        <td>username=xxx</td>
-        <td>-</td>
+        <td>username、id</td>
+        <td>可以根据username查询数据，也可以通过id查询数据</td>
       </tr>
       <tr>
         <td>2</td>
