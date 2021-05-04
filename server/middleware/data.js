@@ -55,9 +55,12 @@ module.exports = async (ctx, next) => {
   try {
     // 解析 url
     if (url === '/api/user') { // FIXME: get 获取数据
-      const { username } = ctx.query;
+      const { username, id } = ctx.query;
       if (username) {
         const filterData = dataList.filter(data => data.name === username);
+        ctx.response.body = dataFormat({ data: filterData });
+      } else if (id) {
+        const filterData = dataList.filter(data => data.id == id);
         ctx.response.body = dataFormat({ data: filterData });
       } else {
         ctx.response.body = dataFormat({ data: dataList });
