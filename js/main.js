@@ -1,3 +1,7 @@
+var isAdd = false;
+// 编辑时需要的id
+var editId;
+
 function init() {
   // 1. 请求数据
   $.ajax({
@@ -56,6 +60,7 @@ $('#reset-btn').click(function () {
 
 // "新增"按钮
 $('#add-btn').click(function () { 
+  isAdd = true;
   // 1. 显示弹框
   $('#myModal').modal('show')
   // 2. 重置表单
@@ -64,44 +69,61 @@ $('#add-btn').click(function () {
 
 // "保存"按钮
 $('#save-btn').click(function () {
-  // 1. 获取表单内容
-  var name = $('#username').val();
-  var birth = $('#birthday').val();
-  var place = $('#place').val();
-  var telephone = $('#telephone').val();
-  // console.log('姓名：', name);
-  // console.log('出生日期：', birth);
-  // console.log('籍贯：', place);
-  // console.log('手机号码：', telephone);
-  var obj = {
-    name: name,
-    birthday: birth,
-    city: place,
-    phone: telephone
-  }
-  console.log('obj：', obj);
-  // 2. 请求新增数据
-  $.ajax({
-    type: 'POST',
-    url: 'http://10.65.41.54:8888/api/user/add',
-    data: obj,
-    success: function (result) {
-      // console.log('result：', result);
-      // 3. 新增数据成功之后，关闭模态框
-      $('#myModal').modal('hide');
+  if (isAdd === true) {
+    // 1. 获取表单内容
+    var obj = getFormData()
+    console.log('obj：', obj);
+    // 2. 请求新增数据
+    $.ajax({
+      type: 'POST',
+      url: 'http://10.65.41.54:8888/api/user/add',
+      data: obj,
+      success: function (result) {
+        // console.log('result：', result);
+        // 3. 新增数据成功之后，关闭模态框
+        $('#myModal').modal('hide');
+        // 4. 重新请求最新数据渲染到页面
+        $.ajax({
+          type: 'GET',
+          url: 'http://10.65.41.54:8888/api/user',
+          success: function (result) {
+            // console.log('result:', result);
+            // 5. 请求成功后，将数据插入到模板渲染到页面
+            htmlRender(result.data);
+          }
+        })
+      }
+    })
+  } else {
+    // 1. 获取表单数据
+    var obj = getFormData();
+    // 2. 提交编辑数据给后台
+    $.ajax({
+      type: 'PUT',
+      url: 'http://10.65.41.54:8888/api/user/edit',
+      data: {
+        id: editId,
+        name: obj.name,
+        phone: obj.phone,
+        city: obj.city,
+        birthday: obj.birthday
+      },
+      // 3. 提交成功后，获取最新数据更新表格
+      success: function (result) {
+        $.ajax({
+          type: 'GET',
+          url: 'http://10.65.41.54:8888/api/user',
+          success: function (result) {
+            // 4. 请求成功后，将数据插入到模板渲染到页面
+            htmlRender(result.data);
+            // 5. 新增数据成功之后，关闭模态框
+            $('#myModal').modal('hide');
+          }
+        })
+      }
+    })
     
-      // 4. 重新请求最新数据渲染到页面
-      $.ajax({
-        type: 'GET',
-        url: 'http://10.65.41.54:8888/api/user',
-        success: function (result) {
-          // console.log('result:', result);
-          // 5. 请求成功后，将数据插入到模板渲染到页面
-          htmlRender(result.data);
-        }
-      })
-    }
-  })
+  }
 })
 
 // 重置数据表单
@@ -110,6 +132,20 @@ function resetForm() {
   $('#birthday').val('');
   $('#place').val('');
   $('#telephone').val('');
+}
+
+// 获取表单数据
+function getFormData() {
+  var name = $('#username').val();
+  var birth = $('#birthday').val();
+  var place = $('#place').val();
+  var telephone = $('#telephone').val();
+  return {
+    name: name,
+    phone: telephone,
+    city: place,
+    birthday: birth
+  }
 }
 
 // 渲染模板
@@ -124,7 +160,7 @@ function htmlRender(dataList) {
       <td>${item.birthday}</td>
       <td>${item.city}</td>
       <td>
-        <button class="btn btn-primary edi-btn" data-ediid="${item.id}">编辑</button>
+        <button class="btn btn-primary edi-btn" data-editid="${item.id}">编辑</button>
         <button class="btn btn-danger del-btn" data-id="${item.id}">删除</button>
       </td>
       </tr>
@@ -134,8 +170,25 @@ function htmlRender(dataList) {
 
   // "编辑功能"
   $('.edi-btn').click(function () { 
-    var id = $(this).data('ediid');
-    console.log(id);
+    // 1. 当前是编辑操作，所以把isAdd设为false
+    isAdd = false;
+    // 2. 获取当前编辑id
+    editId = $(this).data('editid');
+    // 3. 请求编辑所在的行数据
+    $.ajax({
+      type: 'GET',
+      url: 'http://10.65.41.54:8888/api/user?id=' + editId,
+      success: function (result) {
+        // console.log('result:', result);
+        // 4. 请求数据成功后，将获取数据显示在弹窗里
+        $('#username').val(result.data[0].name);
+        $('#birthday').val(result.data[0].birthday);
+        $('#place').val(result.data[0].city);
+        $('#telephone').val(result.data[0].phone);
+        // 5. 显示弹窗
+        $('#myModal').modal('show')
+       }
+    })
   })
   
   // "删除"按钮
