@@ -1,5 +1,5 @@
 body {
-  margin: 10px;
+  /* margin: 10px; */
   min-width: 600px;
 }
 
@@ -15,6 +15,11 @@ body {
 #tool-bar {
   display: flex;
   justify-content: space-between;
+}
+
+#tool-bar,
+#main {
+  margin: 10px;
 }
 
 .search-ipt {
