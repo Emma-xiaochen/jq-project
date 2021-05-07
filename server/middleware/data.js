@@ -68,7 +68,7 @@ module.exports = async (ctx, next) => {
     } else if (url === '/api/user/add') { // FIXME: post 新增数据
       const data = ctx.request.body
       if (!data.name) {
-        ctx.response.body = dataFormat({ code: 400, message: '新增数据失败，至少新增个姓名啊，小鸡狗~' })
+        ctx.response.body = dataFormat({ code: 400, message: '新增数据失败，至少新增个姓名~' })
         return;
       }
       dataList.push({ id: dataList.length + 1, ...data})

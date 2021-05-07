@@ -52,5 +52,5 @@ module.exports = `
       </tr>
     </tbody>
   </table>
-  <h1 style="text-align:center;margin-top:200px;font-size:100px;color: rgba(0,0,0,.026);">我系领公</h1>
+  <h1 style="text-align:center;margin-top:200px;font-size:100px;color: rgba(0,0,0,.026);">Emma</h1>
 `
