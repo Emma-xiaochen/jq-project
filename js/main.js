@@ -148,6 +148,50 @@ function getFormData() {
   }
 }
 
+$('#table').click(function (ev) {
+  var n = $(ev.target).text();
+  var target = $(ev.target)
+  if (n === '编辑') {
+    isAdd = false;
+    editId = target.data('editid');
+    $.ajax({
+      type: 'GET',
+      url: 'http://10.65.41.54:8888/api/user?id=' + editId,
+      success: function (result) {
+        $('#username').val(result.data[0].name);
+        $('#birthday').val(result.data[0].birthday);
+        $('#place').val(result.data[0].city);
+        $('#telephone').val(result.data[0].phone);
+        $('#myModal').modal('show')
+      }
+    })
+    
+  } else if (n === '删除') {
+    console.log('删除');
+    var target = $(ev.target);
+    var id = target.data('id');
+    var isDel = confirm('您是否要删除id为' + id + '的数据');
+    if (isDel) {
+      $.ajax({
+        type: 'DELETE',
+        url: 'http://10.65.41.54:8888/api/user/delete',
+        data: { id: id },
+        success: function (result) {
+          $.ajax({
+            type: 'GET',
+            url: 'http://10.65.41.54:8888/api/user',
+            success(result) {
+              htmlRender(result.data);
+            }
+          })
+        }
+      })
+    } else {
+      console.log('取消删除')
+    }
+  }
+})
+
 // 渲染模板
 function htmlRender(dataList) {
   var htmlStr;
@@ -168,62 +212,59 @@ function htmlRender(dataList) {
   })
   $('#tbody').empty().append(htmlStr);
 
-  // "编辑功能"
-  $('.edi-btn').click(function () { 
-    // 1. 当前是编辑操作，所以把isAdd设为false
-    isAdd = false;
-    // 2. 获取当前编辑id
-    editId = $(this).data('editid');
-    // 3. 请求编辑所在的行数据
-    $.ajax({
-      type: 'GET',
-      url: 'http://10.65.41.54:8888/api/user?id=' + editId,
-      success: function (result) {
-        // console.log('result:', result);
-        // 4. 请求数据成功后，将获取数据显示在弹窗里
-        $('#username').val(result.data[0].name);
-        $('#birthday').val(result.data[0].birthday);
-        $('#place').val(result.data[0].city);
-        $('#telephone').val(result.data[0].phone);
-        // 5. 显示弹窗
-        $('#myModal').modal('show')
-       }
-    })
-  })
+  // // "编辑功能"
+  // $('.edi-btn').click(function () { 
+  //   // 1. 当前是编辑操作，所以把isAdd设为false
+  //   isAdd = false;
+  //   // 2. 获取当前编辑id
+  //   editId = $(this).data('editid');
+  //   // 3. 请求编辑所在的行数据
+  //   $.ajax({
+  //     type: 'GET',
+  //     url: 'http://10.65.41.54:8888/api/user?id=' + editId,
+  //     success: function (result) {
+  //       // console.log('result:', result);
+  //       // 4. 请求数据成功后，将获取数据显示在弹窗里
+  //       $('#username').val(result.data[0].name);
+  //       $('#birthday').val(result.data[0].birthday);
+  //       $('#place').val(result.data[0].city);
+  //       $('#telephone').val(result.data[0].phone);
+  //       // 5. 显示弹窗
+  //       $('#myModal').modal('show')
+  //      }
+  //   })
+  // })
   
-  // "删除"按钮
-  $('.del-btn').click(function () {
-    // 1. 读取预存在删除按钮的data-id值
-    var id = $(this).data('id');
-    // 2. 用confirm确认框来显示一条信息和确认和取消按钮的对话框
-    var isDel = confirm('是否删除id为' + id + '的数据?');
-    // 3. 选择删除后，请求删除数据
-    if (isDel) {
-      console.log('选择删除');
-      $.ajax({
-        type: 'DELETE',
-        url: 'http://10.65.41.54:8888/api/user/delete',
-        data: { id: id },
-        success: function (result) {
-          console.log('result:', result);
-          // 4. 删除数据成功后，重新请求数据到页面
-          $.ajax({
-            type: 'GET',
-            url: 'http://10.65.41.54:8888/api/user',
-            success: function (result) {
-              // 5. 请求成功后，将数据插入到模板渲染到页面
-              htmlRender(result.data);
-            }
-          })
-        }
-      })
-    } else {
-      // 6. 选择取消删除后，关闭弹框
-      console.log('取消删除');
-    }
-  })
+  // // "删除"按钮
+  // $('.del-btn').click(function () {
+  //   // 1. 读取预存在删除按钮的data-id值
+  //   var id = $(this).data('id');
+  //   // 2. 用confirm确认框来显示一条信息和确认和取消按钮的对话框
+  //   var isDel = confirm('是否删除id为' + id + '的数据?');
+  //   // 3. 选择删除后，请求删除数据
+  //   if (isDel) {
+  //     console.log('选择删除');
+  //     $.ajax({
+  //       type: 'DELETE',
+  //       url: 'http://10.65.41.54:8888/api/user/delete',
+  //       data: { id: id },
+  //       success: function (result) {
+  //         console.log('result:', result);
+  //         // 4. 删除数据成功后，重新请求数据到页面
+  //         $.ajax({
+  //           type: 'GET',
+  //           url: 'http://10.65.41.54:8888/api/user',
+  //           success: function (result) {
+  //             // 5. 请求成功后，将数据插入到模板渲染到页面
+  //             htmlRender(result.data);
+  //           }
+  //         })
+  //       }
+  //     })
+  //   } else {
+  //     // 6. 选择取消删除后，关闭弹框
+  //     console.log('取消删除');
+  //   }
+  // })
 }
 
-$('#myModal').on('shown.bs.modal', function () {
-  $('#myInput').focus()
-})
