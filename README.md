@@ -8,7 +8,7 @@
 
 ## 项目展示图
 
-![项目展示图](C:\Users\cm\Desktop\项目展示图.png)
+![项目展示图](https://github.com/Emma-xiaochen/jq-project/blob/main/image/%E4%BF%AE%E6%94%B9%E5%B0%8F%E6%98%8E%E4%BF%A1%E6%81%AF.png?raw=true)
 
 
 
